@@ -7,6 +7,13 @@
   , "default_locale": "en"
   , "manifest_version": 2
 
+  , "applications": {
+        "gecko": {
+            "id": "reloader@matt.tf"
+          , "strict_min_version": "55.0"
+        }
+    }
+
   , "background": {
         "scripts": [
             "main.js"
