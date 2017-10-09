@@ -3,7 +3,7 @@
         "message": "Reloader"
     }
   , "extension_description": {
-        "message": "Reload button as a page action"
+        "message": "Adds a cancellable reload action to the URL bar"
     }
   , "page_action_idle_title": {
         "message": "Reload current page ($1)"
