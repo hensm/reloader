@@ -1,0 +1,14 @@
+{
+    "page_action_idle_title": {
+        "message": "Ladda om aktuell sida ($1)"
+    }
+  , "page_action_busy_title": {
+        "message": "Sluta ladda denna sida ($1)"
+    }
+  , "page_action_context_normal_reload_title": {
+        "message": "Normal inläsning"
+    }
+  , "page_action_context_hard_reload_title": {
+        "message": "Hård inläsning"
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "page_action_idle_title": {
+        "message": "Recarregar a página atual ($1)"
+    }
+  , "page_action_busy_title": {
+        "message": "Interromper o carregamento desta página ($1)"
+    }
+  , "page_action_context_normal_reload_title": {
+        "message": "Recarregamento normal"
+    }
+  , "page_action_context_hard_reload_title": {
+        "message": "Recarregamento forçado"
+    }
+}

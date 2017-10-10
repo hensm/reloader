@@ -1,0 +1,14 @@
+{
+    "page_action_idle_title": {
+        "message": "Päivitä avoin sivu ($1)"
+    }
+  , "page_action_busy_title": {
+        "message": "Lopeta sivun lataaminen ($1)"
+    }
+  , "page_action_context_normal_reload_title": {
+        "message": "Normaali päivitys"
+    }
+  , "page_action_context_hard_reload_title": {
+        "message": "Pakotettu päivitys"
+    }
+}

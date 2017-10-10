@@ -1,0 +1,14 @@
+{
+    "page_action_idle_title": {
+        "message": "Ricarica la pagina corrente ($1)"
+    }
+  , "page_action_busy_title": {
+        "message": "Interrompi il caricamento della pagina ($1)"
+    }
+  , "page_action_context_normal_reload_title": {
+        "message": "Ricaricamento normale"
+    }
+  , "page_action_context_hard_reload_title": {
+        "message": "Ricaricamento manuale"
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "page_action_idle_title": {
+        "message": "重新載入目前頁面 ($1)"
+    }
+  , "page_action_busy_title": {
+        "message": "停止載入此頁面 ($1)"
+    }
+  , "page_action_context_normal_reload_title": {
+        "message": "正常重新載入"
+    }
+  , "page_action_context_hard_reload_title": {
+        "message": "強制重新載入"
+    }
+}

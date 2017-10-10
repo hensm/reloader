@@ -1,0 +1,14 @@
+{
+    "page_action_idle_title": {
+        "message": "Recargar página actual ($1)"
+    }
+  , "page_action_busy_title": {
+        "message": "Detener la carga de esta página ($1)"
+    }
+  , "page_action_context_normal_reload_title": {
+        "message": "Volver a cargar normalmente"
+    }
+  , "page_action_context_hard_reload_title": {
+        "message": "Volver a cargar de manera forzada"
+    }
+}

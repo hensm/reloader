@@ -1,0 +1,14 @@
+{
+    "page_action_idle_title": {
+        "message": "このページを再読み込みします ($1)"
+    }
+  , "page_action_busy_title": {
+        "message": "このページの読み込みを中止します ($1)"
+    }
+  , "page_action_context_normal_reload_title": {
+        "message": "通常の再読み込み"
+    }
+  , "page_action_context_hard_reload_title": {
+        "message": "ハード再読み込み"
+    }
+}
