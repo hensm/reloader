@@ -1,0 +1,17 @@
+{
+    "page_action_idle_title": {
+        "message": "Įkelti dabartinį tinklalapį iš naujo ($1)"
+    }
+  , "page_action_busy_title": {
+        "message": "Sustabdyti šio tinklalapio įkėlimą ($1)"
+    }
+  , "page_action_context_normal_reload_title": {
+        "message": "Įprastas įkėlimas iš naujo"
+    }
+  , "page_action_context_hard_reload_title": {
+        "message": "Priverstinis įkėlimas iš naujo"
+    }
+  , "page_action_context_empty_cache_and_hard_reload_title": {
+        "message": "Tuščia talpykla ir priverstinis įkėlimas iš naujo"
+    }
+}

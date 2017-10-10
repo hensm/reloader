@@ -1,0 +1,17 @@
+{
+    "page_action_idle_title": {
+        "message": "بارگذاری مجدد این صفحه ($1)"
+    }
+  , "page_action_busy_title": {
+        "message": "توقف بارگذاری این صفحه ($1)"
+    }
+  , "page_action_context_normal_reload_title": {
+        "message": "تازه‌سازی عادی"
+    }
+  , "page_action_context_hard_reload_title": {
+        "message": "تازه سازی سخت"
+    }
+  , "page_action_context_empty_cache_and_hard_reload_title": {
+        "message": "خالی کردن حافظه پنهان و تازه‌سازی سخت"
+    }
+}

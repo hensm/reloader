@@ -1,0 +1,17 @@
+{
+    "page_action_idle_title": {
+        "message": "Презареждане на текущата страница ($1)"
+    }
+  , "page_action_busy_title": {
+        "message": "Спиране зареждането на страницата ($1)"
+    }
+  , "page_action_context_normal_reload_title": {
+        "message": "Нормално презареждане"
+    }
+  , "page_action_context_hard_reload_title": {
+        "message": "Твърдо презареждане"
+    }
+  , "page_action_context_empty_cache_and_hard_reload_title": {
+        "message": "Изпразване на кеша и твърдо презареждане"
+    }
+}

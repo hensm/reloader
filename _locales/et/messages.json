@@ -1,0 +1,17 @@
+{
+    "page_action_idle_title": {
+        "message": "Laadi leht uuesti ($1)"
+    }
+  , "page_action_busy_title": {
+        "message": "Peata selle lehe laadimine ($1)"
+    }
+  , "page_action_context_normal_reload_title": {
+        "message": "Tavaline uuestilaadimine"
+    }
+  , "page_action_context_hard_reload_title": {
+        "message": "Põhjalik uuestilaadimine"
+    }
+  , "page_action_context_empty_cache_and_hard_reload_title": {
+        "message": "Tühjenda vahemälu ja tee põhjalik uuestilaadimine"
+    }
+}

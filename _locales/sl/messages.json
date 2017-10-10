@@ -1,0 +1,17 @@
+{
+    "page_action_idle_title": {
+        "message": "Ponovno naloži trenutno stran ($1)"
+    }
+  , "page_action_busy_title": {
+        "message": "Ustavi nalaganje te strani ($1)"
+    }
+  , "page_action_context_normal_reload_title": {
+        "message": "Znova naloži z običajnim načinom"
+    }
+  , "page_action_context_hard_reload_title": {
+        "message": "Znova naloži brez predpomnilnika"
+    }
+  , "page_action_context_empty_cache_and_hard_reload_title": {
+        "message": "Izbriši predpomnilnik in znova naloži brez predpomnilnika"
+    }
+}

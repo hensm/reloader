@@ -1,0 +1,17 @@
+{
+    "page_action_idle_title": {
+        "message": "चालू पृष्ठ परत दाखल करा ($1)"
+    }
+  , "page_action_busy_title": {
+        "message": "हे पृष्ठ दाखल करणे थांबवा ($1)"
+    }
+  , "page_action_context_normal_reload_title": {
+        "message": "सामान्‍य रीलोड"
+    }
+  , "page_action_context_hard_reload_title": {
+        "message": "कठीण रीलोड"
+    }
+  , "page_action_context_empty_cache_and_hard_reload_title": {
+        "message": "कॅश   आणि कठीण रीलोड रिक्त करा"
+    }
+}

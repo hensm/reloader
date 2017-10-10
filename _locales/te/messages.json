@@ -1,0 +1,17 @@
+{
+    "page_action_idle_title": {
+        "message": "ప్రస్తుత పేజీని రీలోడ్ చెయ్యి ($1)"
+    }
+  , "page_action_busy_title": {
+        "message": "ఈ పేజీని లోడు చెయ్యడం ఆపివేయి ($1)"
+    }
+  , "page_action_context_normal_reload_title": {
+        "message": "సాధారణంగా మళ్లీ లోడ్ చేయి"
+    }
+  , "page_action_context_hard_reload_title": {
+        "message": "క్లిష్టంగా మళ్లీ లోడ్ చేయి"
+    }
+  , "page_action_context_empty_cache_and_hard_reload_title": {
+        "message": "ఖాళీ కాష్ మరియు క్లిష్టంగా మళ్లీ లోడ్ చేయి"
+    }
+}

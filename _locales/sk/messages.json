@@ -1,0 +1,17 @@
+{
+    "page_action_idle_title": {
+        "message": "Načítať najnovšiu verziu stránky ($1)"
+    }
+  , "page_action_busy_title": {
+        "message": "Zastaviť načítavanie tejto stránky ($1)"
+    }
+  , "page_action_context_normal_reload_title": {
+        "message": "Opätovne načítať"
+    }
+  , "page_action_context_hard_reload_title": {
+        "message": "Vynútiť opätovné načítanie"
+    }
+  , "page_action_context_empty_cache_and_hard_reload_title": {
+        "message": "Vymazať vyrovnávaciu pamäť a vynútiť opätovné načítanie"
+    }
+}

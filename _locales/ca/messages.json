@@ -1,0 +1,17 @@
+{
+    "page_action_idle_title": {
+        "message": "Actualitza la pàgina actual ($1)"
+    }
+  , "page_action_busy_title": {
+        "message": "Atura la càrrega d'aquesta pàgina ($1)"
+    }
+  , "page_action_context_normal_reload_title": {
+        "message": "Torna a carregar de manera normal"
+    }
+  , "page_action_context_hard_reload_title": {
+        "message": "Torna a carregar de manera forçada"
+    }
+  , "page_action_context_empty_cache_and_hard_reload_title": {
+        "message": "Buida la memòria cau i torna a carregar de manera forçada"
+    }
+}
