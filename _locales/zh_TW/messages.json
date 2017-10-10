@@ -11,4 +11,7 @@
   , "page_action_context_hard_reload_title": {
         "message": "強制重新載入"
     }
+  , "page_action_context_empty_cache_and_hard_reload_title": {
+        "message": "清除快取並強制重新載入"
+    }
 }

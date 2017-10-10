@@ -11,4 +11,7 @@
   , "page_action_context_hard_reload_title": {
         "message": "Actualisation forcée"
     }
+  , "page_action_context_empty_cache_and_hard_reload_title": {
+        "message": "Vider le cache et effectuer une actualisation forcée"
+    }
 }

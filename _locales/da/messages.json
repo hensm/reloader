@@ -11,4 +11,7 @@
   , "page_action_context_hard_reload_title": {
         "message": "Genindlæs fuldstændig"
     }
+  , "page_action_context_empty_cache_and_hard_reload_title": {
+        "message": "Tøm cache og genindlæs fuldstændig"
+    }
 }

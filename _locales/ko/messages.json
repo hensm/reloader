@@ -11,4 +11,7 @@
   , "page_action_context_hard_reload_title": {
         "message": "강력 새로고침"
     }
+  , "page_action_context_empty_cache_and_hard_reload_title": {
+        "message": "캐시 비우기 및 강력 새로고침"
+    }
 }

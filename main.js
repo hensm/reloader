@@ -39,6 +39,12 @@ browser.runtime.getPlatformInfo().then(info => {
 });
 
 
+/**
+ * Updates the reload button icon for the page action attached to the
+ * tab specified.
+ *
+ * @param tab Tab with the page action to update
+ */
 function refresh_icon (tab) {
     const reload_icon_path = is_theme_dark
         ? "data/reload_dark.svg"
@@ -129,13 +135,35 @@ browser.menus.create({
   , title: _("page_action_context_hard_reload_title")
   , contexts: [ "page_action" ]
 });
+browser.menus.create({
+    id: "empty_cache_and_hard_reload"
+  , title: _("page_action_context_empty_cache_and_hard_reload_title")
+  , contexts: [ "page_action" ]
+})
 
 browser.menus.onClicked.addListener((info, tab) => {
     switch (info.menuItemId) {
+        // Reload without cached content
         case "hard_reload":
             browser.tabs.reload({
                 bypassCache: true
             });
+            break;
+
+        /**
+         * bypassCache on reload only applies to content loaded with
+         * the page. For anything loaded after, the cache must be
+         * cleared properly.
+         */
+        case "empty_cache_and_hard_reload":
+            // Clear cache
+            browser.browsingData.remove({}, { cache: true })
+                .then(() => {
+                    // Reload once cache is cleared
+                    browser.tabs.reload({
+                        bypassCache: true
+                    });
+                });
             break;
     }
 });

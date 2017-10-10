@@ -11,4 +11,7 @@
   , "page_action_context_hard_reload_title": {
         "message": "Wymuś ponowne załadowanie"
     }
+  , "page_action_context_empty_cache_and_hard_reload_title": {
+        "message": "Opróżnij pamięć podręczną i wymuś ponowne załadowanie"
+    }
 }

@@ -11,4 +11,7 @@
   , "page_action_context_hard_reload_title": {
         "message": "Volver a cargar de manera forzada"
     }
+  , "page_action_context_empty_cache_and_hard_reload_title": {
+        "message": "Vaciar la caché y volver a cargar de manera forzada"
+    }
 }

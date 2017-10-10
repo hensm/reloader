@@ -11,4 +11,7 @@
   , "page_action_context_hard_reload_title": {
         "message": "ハード再読み込み"
     }
+  , "page_action_context_empty_cache_and_hard_reload_title": {
+        "message": "キャッシュの消去とハード再読み込み"
+    }
 }

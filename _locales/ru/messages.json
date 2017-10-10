@@ -11,4 +11,7 @@
   , "page_action_context_hard_reload_title": {
         "message": "Жесткая перезагрузка"
     }
+  , "page_action_context_empty_cache_and_hard_reload_title": {
+        "message": "Очистка кеша и жесткая перезагрузка"
+    }
 }

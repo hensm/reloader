@@ -11,4 +11,7 @@
   , "page_action_context_hard_reload_title": {
         "message": "Pakotettu päivitys"
     }
+  , "page_action_context_empty_cache_and_hard_reload_title": {
+        "message": "Tyhjennä välimuisti ja pakota päivitys"
+    }
 }

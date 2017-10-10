@@ -11,4 +11,7 @@
   , "page_action_context_hard_reload_title": {
         "message": "Vollständiges Aktualisieren (Hard Reload)"
     }
+  , "page_action_context_empty_cache_and_hard_reload_title": {
+        "message": "Cache leeren und vollständig aktualisieren"
+    }
 }

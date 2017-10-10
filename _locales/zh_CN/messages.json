@@ -11,4 +11,7 @@
   , "page_action_context_hard_reload_title": {
         "message": "硬性重新加载"
     }
+  , "page_action_context_empty_cache_and_hard_reload_title": {
+        "message": "清空缓存并硬性重新加载"
+    }
 }

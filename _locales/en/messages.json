@@ -17,4 +17,7 @@
   , "page_action_context_hard_reload_title": {
         "message": "Hard Reload"
     }
+  , "page_action_context_empty_cache_and_hard_reload_title": {
+        "message": "Empty Cache and Hard Reload"
+    }
 }

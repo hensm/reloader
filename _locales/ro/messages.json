@@ -11,4 +11,7 @@
   , "page_action_context_hard_reload_title": {
         "message": "Reîncărcați forțat"
     }
+  , "page_action_context_empty_cache_and_hard_reload_title": {
+        "message": "Goliți memoria cache și reîncărcați forțat"
+    }
 }
