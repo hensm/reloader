@@ -2,13 +2,14 @@
 
 const _ = browser.i18n.getMessage;
 
-
+// Array of theme names using light icons
 const dark_themes = [
     "Dark"
 ];
 
 let is_theme_dark = false;
 
+// Titles start empty until platform info is fetched
 let page_action_title_idle = "";
 let page_action_title_busy = "";
 
@@ -60,7 +61,11 @@ function refresh_icon (tab) {
             : reload_icon_path
     });
 }
-function refresh_all_icons (tab_id = null) {
+
+/**
+ * Updates reload button icons on all tabs
+ */
+function refresh_all_icons () {
     browser.tabs.query({}).then(tabs => {
         for (const tab of tabs) {
             refresh_icon(tab);
@@ -68,6 +73,12 @@ function refresh_all_icons (tab_id = null) {
     });
 }
 
+/**
+ * Shows the reload button on a tab. Called initially on startup and
+ * once a tab has been created.
+ *
+ * @param tab Tab with the page action to show
+ */
 function show_page_action (tab) {
     browser.pageAction.show(tab.id);
     browser.pageAction.setTitle({
@@ -76,6 +87,7 @@ function show_page_action (tab) {
     });
     refresh_icon(tab);
 }
+
 
 browser.pageAction.onClicked.addListener(tab => {
     if (tab.status === "loading") {
@@ -95,6 +107,7 @@ browser.pageAction.onClicked.addListener(tab => {
         browser.tabs.reload()
     }
 });
+
 
 
 // Show page action on all tabs
