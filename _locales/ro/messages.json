@@ -1,0 +1,14 @@
+{
+    "page_action_idle_title": {
+        "message": "Reîncarcă pagina actuală ($1)"
+    }
+  , "page_action_busy_title": {
+        "message": "Oprește încărcarea acestei pagini ($1)"
+    }
+  , "page_action_context_normal_reload_title": {
+        "message": "Reîncărcați normal"
+    }
+  , "page_action_context_hard_reload_title": {
+        "message": "Reîncărcați forțat"
+    }
+}
