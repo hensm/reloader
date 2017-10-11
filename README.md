@@ -14,3 +14,4 @@ The project is licensed under the MIT, though some localizations use already tra
 * Chromium locale strings:
     + page_action_context_normal_reload_title
     + page_action_context_hard_reload_title
+    + page_action_context_empty_cache_and_hard_reload_title
