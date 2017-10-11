@@ -47,12 +47,14 @@ browser.runtime.getPlatformInfo().then(info => {
  * @param tab Tab with the page action to update
  */
 function refresh_icon (tab) {
+    const dir = _("@@bidi_dir");
+
     const reload_icon_path = is_theme_dark
-        ? "data/reload_dark.svg"
-        : "data/reload_light.svg";
+        ? `data/${dir}/reload_dark.svg`
+        : `data/${dir}/reload_light.svg`;
     const stop_icon_path = is_theme_dark
-        ? "data/stop_dark.svg"
-        : "data/stop_light.svg";
+        ? `data/${dir}/stop_dark.svg`
+        : `data/${dir}/stop_light.svg`;
 
     browser.pageAction.setIcon({
         tabId: tab.id
