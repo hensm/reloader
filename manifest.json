@@ -30,7 +30,6 @@
         "activeTab"
       , "management"
       , "menus"
-      , "tabs"
       , "browsingData"
     ]
 }
