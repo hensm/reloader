@@ -2,17 +2,17 @@
 
 const _ = browser.i18n.getMessage;
 
-// Array of theme names using light icons
-const dark_themes = [
-    "Dark"
-];
+
+// Data path accounting for language direction
+const data_path = `data/${_("@@bidi_dir")}`;
+
 
 let is_theme_dark = false;
 
-// Titles start empty until platform info is fetched
-let page_action_title_idle = "";
-let page_action_title_busy = "";
-
+// Array of theme ids using light icons
+const dark_theme_ids = [
+    "firefox-compact-dark@mozilla.org@personas.mozilla.org"
+];
 
 // Detect theme for icon contrast
 browser.management.getAll().then(extensions => {
@@ -20,23 +20,27 @@ browser.management.getAll().then(extensions => {
             ext.type === "theme"
          && ext.enabled)[0];
 
-    is_theme_dark = dark_themes.includes(current_theme.name);
-    refresh_all_icons();
+    is_theme_dark = dark_theme_ids.includes(current_theme.id);
+    update_all_page_action_icons();
 });
 
 // Listen for theme changes to maintain icon contrast
 browser.management.onEnabled.addListener(info => {
     if (info.type === "theme") {
-        is_theme_dark = dark_themes.includes(info.name);
-        refresh_all_icons();
+        is_theme_dark = dark_theme_ids.includes(info.id);
+        update_all_page_action_icons();
     }
 });
+
+
+// Titles use Windows/Linux shortcuts until platform is fetched
+let page_action_title_idle = _("page_action_busy_title", "Ctrl");
+let page_action_title_busy = _("page_action_busy_title", "Esc");
 
 // Detect OS to set macOS shortcuts
 browser.runtime.getPlatformInfo().then(info => {
     page_action_title_idle = _("page_action_idle_title"
           , `${info.os === "mac" ? "⌘" : "Ctrl"}+R`);
-    page_action_title_busy = _("page_action_busy_title", "Esc");
 });
 
 
@@ -46,15 +50,13 @@ browser.runtime.getPlatformInfo().then(info => {
  *
  * @param tab Tab with the page action to update
  */
-function refresh_icon (tab) {
-    const dir = _("@@bidi_dir");
-
+function update_page_action_icon (tab) {
     const reload_icon_path = is_theme_dark
-        ? `data/${dir}/reload_dark.svg`
-        : `data/${dir}/reload_light.svg`;
+        ? `${data_path}/reload_dark.svg`
+        : `${data_path}/reload_light.svg`;
     const stop_icon_path = is_theme_dark
-        ? `data/${dir}/stop_dark.svg`
-        : `data/${dir}/stop_light.svg`;
+        ? `${data_path}/stop_dark.svg`
+        : `${data_path}/stop_light.svg`;
 
     browser.pageAction.setIcon({
         tabId: tab.id
@@ -67,10 +69,10 @@ function refresh_icon (tab) {
 /**
  * Updates reload button icons on all tabs
  */
-function refresh_all_icons () {
+function update_all_page_action_icons () {
     browser.tabs.query({}).then(tabs => {
         for (const tab of tabs) {
-            refresh_icon(tab);
+            update_page_action_icon(tab);
         }
     });
 }
@@ -81,13 +83,15 @@ function refresh_all_icons () {
  *
  * @param tab Tab with the page action to show
  */
-function show_page_action (tab) {
+function update_page_action (tab) {
     browser.pageAction.show(tab.id);
     browser.pageAction.setTitle({
         tabId: tab.id
-      , title: page_action_title_idle
+      , title: tab.status === "loading"
+            ? page_action_title_busy
+            : page_action_title_idle
     });
-    refresh_icon(tab);
+    update_page_action_icon(tab);
 }
 
 
@@ -111,30 +115,22 @@ browser.pageAction.onClicked.addListener(tab => {
 });
 
 
-
 // Show page action on all tabs
 browser.tabs.query({}).then(tabs => {
     for (const tab of tabs) {
-        show_page_action(tab);
+        update_page_action(tab);
     }
 });
 
 // Show page action on new tabs
 browser.tabs.onCreated.addListener(tab => {
-    show_page_action(tab);
+    update_page_action(tab);
 })
 
+// Show/update page action on navigation
 browser.tabs.onUpdated.addListener((tab_id, info, tab) => {
-    show_page_action(tab);
     if ("status" in info) {
-        // Update title on reload/stop
-        browser.pageAction.setTitle({
-            tabId: tab_id
-          , title: info.status === "loading"
-                ? page_action_title_busy
-                : page_action_title_idle
-        });
-        refresh_icon(tab);
+        update_page_action(tab);
     }
 });
 

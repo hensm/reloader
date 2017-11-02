@@ -4,6 +4,11 @@
   , "version": "0.0.3"
   , "author": "Matt Hensman <m@matt.tf>"
 
+  , "icons": {
+        "48": "icon.svg"
+      , "96": "icon.svg"
+    }
+
   , "default_locale": "en"
   , "manifest_version": 2
 
@@ -25,6 +30,7 @@
         "activeTab"
       , "management"
       , "menus"
+      , "tabs"
       , "browsingData"
     ]
 }
