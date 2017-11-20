@@ -25,6 +25,7 @@ Then, in your stylesheet:
 
 ````css
 /* Example colors, you can use whatever you want */
+#reloader_matt_tf-page-action,
 #pageAction-urlbar-reloader_matt_tf {
     fill: red;
     fill-opacity: 0.75;
