@@ -19,7 +19,7 @@ The project is licensed under the MIT, though some localizations use already tra
 
 ## Customizing
 
-The icon color is customizable via userChrome.css. The icons use `context-fill` and `context-fill-opacity` to change inherit colors from the stylesheet. By default, this functionality isn't enabled for anything but `chrome://` and `resource://` URLs. For it to work, you need to flip the `svg.context-properties.content.enabled` pref.
+The icon color is customizable via userChrome.css. The icons use `context-fill` and `context-fill-opacity` to inherit colors from the stylesheet. By default, this functionality isn't enabled for anything but `chrome://` and `resource://` URLs. For it to work, you need to flip the `svg.context-properties.content.enabled` pref.
 
 Then, in your stylesheet:
 
