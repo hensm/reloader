@@ -25,10 +25,21 @@
         ]
       , "persistent": false
     }
+
   , "page_action": {}
+
+  , "commands": {
+        "empty_cache_and_hard_reload": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+F5"
+            }
+        }
+    }
+
   , "permissions": [
         "activeTab"
       , "management"
+      , "theme"
       , "menus"
       , "browsingData"
     ]

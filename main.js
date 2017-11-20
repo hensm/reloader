@@ -135,6 +135,33 @@ browser.tabs.onUpdated.addListener((tab_id, info, tab) => {
 });
 
 
+
+/**
+ * bypassCache on reload only applies to content loaded with
+ * the page. For anything loaded after, the cache must be
+ * cleared properly.
+ */
+function empty_cache_and_hard_reload () {
+    // Clear cache
+    browser.browsingData.remove({}, { cache: true })
+        .then(() => {
+            // Reload once cache is cleared
+            browser.tabs.reload({
+                bypassCache: true
+            });
+        });
+}
+
+
+browser.commands.onCommand.addListener(command => {
+    switch (command) {
+        case "empty_cache_and_hard_reload":
+            empty_cache_and_hard_reload();
+            break;
+    }
+});
+
+
 browser.menus.create({
     id: "normal_reload"
   , title: _("page_action_context_normal_reload_title")
@@ -161,20 +188,8 @@ browser.menus.onClicked.addListener((info, tab) => {
             });
             break;
 
-        /**
-         * bypassCache on reload only applies to content loaded with
-         * the page. For anything loaded after, the cache must be
-         * cleared properly.
-         */
         case "empty_cache_and_hard_reload":
-            // Clear cache
-            browser.browsingData.remove({}, { cache: true })
-                .then(() => {
-                    // Reload once cache is cleared
-                    browser.tabs.reload({
-                        bypassCache: true
-                    });
-                });
+            empty_cache_and_hard_reload();
             break;
     }
 });
