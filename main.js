@@ -116,6 +116,8 @@ function on_action_clicked (tab) {
         browser.tabs.executeScript({
             code: "window.stop()"
           , runAt: "document_start"
+        }).catch(err => {
+            console.error(`${_("extension_name")}: https://git.io/vbCz7`);
         });
     } else {
         browser.tabs.reload()
