@@ -30,4 +30,9 @@ Then, in your stylesheet:
     fill: red;
     fill-opacity: 0.75;
 }
+
+/* Page action ID */
+#reloader_matt_tf-browser-action {
+    /* ... */
+}
 ````
