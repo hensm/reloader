@@ -58,12 +58,15 @@ function update_page_action_icon (tab) {
         ? `${data_path}/stop_dark.svg`
         : `${data_path}/stop_light.svg`;
 
-    browser.pageAction.setIcon({
+    const action_icon = {
         tabId: tab.id
       , path: tab.status === "loading"
             ? stop_icon_path
             : reload_icon_path
-    });
+    };
+
+    browser.pageAction.setIcon(action_icon);
+    browser.browserAction.setIcon(action_icon);
 }
 
 /**
@@ -85,17 +88,22 @@ function update_all_page_action_icons () {
  */
 function update_page_action (tab) {
     browser.pageAction.show(tab.id);
-    browser.pageAction.setTitle({
+
+    const action_title = {
         tabId: tab.id
       , title: tab.status === "loading"
             ? page_action_title_busy
             : page_action_title_idle
-    });
+    };
+
+    browser.pageAction.setTitle(action_title);
+    browser.browserAction.setTitle(action_title);
+
     update_page_action_icon(tab);
 }
 
 
-browser.pageAction.onClicked.addListener(tab => {
+function on_action_clicked (tab) {
     if (tab.status === "loading") {
         /**
          * Extension API has no stop method, best alternative is to inject a
@@ -112,7 +120,10 @@ browser.pageAction.onClicked.addListener(tab => {
     } else {
         browser.tabs.reload()
     }
-});
+}
+
+browser.pageAction.onClicked.addListener(on_action_clicked);
+browser.browserAction.onClicked.addListener(on_action_clicked);
 
 
 // Show page action on all tabs
@@ -166,17 +177,26 @@ browser.menus.create({
     id: "normal_reload"
   , title: _("page_action_context_normal_reload_title")
   , command: "_execute_page_action"
-  , contexts: [ "page_action" ]
+  , contexts: [
+        "page_action"
+      , "browser_action"
+    ]
 });
 browser.menus.create({
     id: "hard_reload"
   , title: _("page_action_context_hard_reload_title")
-  , contexts: [ "page_action" ]
+  , contexts: [
+        "page_action"
+      , "browser_action"
+    ]
 });
 browser.menus.create({
     id: "empty_cache_and_hard_reload"
   , title: _("page_action_context_empty_cache_and_hard_reload_title")
-  , contexts: [ "page_action" ]
+  , contexts: [
+        "page_action"
+      , "browser_action"
+    ]
 })
 
 browser.menus.onClicked.addListener((info, tab) => {

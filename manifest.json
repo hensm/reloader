@@ -27,6 +27,9 @@
     }
 
   , "page_action": {}
+  , "browser_action": {
+        "default_area": "menupanel"
+    }
 
   , "commands": {
         "empty_cache_and_hard_reload": {
