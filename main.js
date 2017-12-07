@@ -3,10 +3,6 @@
 const _ = browser.i18n.getMessage;
 
 
-// Data path accounting for language direction
-const data_path = `data/${_("@@bidi_dir")}`;
-
-
 let is_theme_dark = false;
 
 // Array of theme ids using light icons
@@ -16,9 +12,8 @@ const dark_theme_ids = [
 
 // Detect theme for icon contrast
 browser.management.getAll().then(extensions => {
-    const current_theme = extensions.filter(ext =>
-            ext.type === "theme"
-         && ext.enabled)[0];
+    const current_theme = extensions.filter(
+            ext => ext.type === "theme" && ext.enabled)[0];
 
     is_theme_dark = dark_theme_ids.includes(current_theme.id);
     update_all_page_action_icons();
@@ -33,8 +28,7 @@ browser.management.onEnabled.addListener(info => {
 });
 
 
-// Titles use Windows/Linux shortcuts until platform is fetched
-let page_action_title_idle = _("page_action_busy_title", "Ctrl");
+let page_action_title_idle;
 let page_action_title_busy = _("page_action_busy_title", "Esc");
 
 // Detect OS to set macOS shortcuts
@@ -51,6 +45,9 @@ browser.runtime.getPlatformInfo().then(info => {
  * @param tab Tab with the page action to update
  */
 function update_page_action_icon (tab) {
+    // Data folder path accounting for language direction
+    const data_path = `data/${_("@@bidi_dir")}`;
+
     const reload_icon_path = is_theme_dark
         ? `${data_path}/reload_dark.svg`
         : `${data_path}/reload_light.svg`;
