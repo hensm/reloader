@@ -31,7 +31,7 @@ Then, in your stylesheet:
     fill-opacity: 0.75;
 }
 
-/* Page action ID */
+/* Browser action ID */
 #reloader_matt_tf-browser-action {
     /* ... */
 }
