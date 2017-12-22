@@ -45,5 +45,6 @@
       , "theme"
       , "menus"
       , "browsingData"
+      , "webNavigation"
     ]
 }

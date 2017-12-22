@@ -37,29 +37,53 @@ browser.runtime.getPlatformInfo().then(info => {
           , `${info.os === "mac" ? "⌘" : "Ctrl"}+R`);
 });
 
-
 /**
  * Updates the reload button icon for the page action attached to the
  * tab specified.
  *
- * @param tab Tab with the page action to update
+ * @param tab         Tab with the page action to update
+ * @param is_animated Set icon and start an animation
  */
-function update_page_action_icon (tab) {
-    // Data folder path accounting for language direction
-    const data_path = `data/${_("@@bidi_dir")}`;
+function update_page_action_icon (tab, is_animated = true) {
+    let path;
 
-    const reload_icon_path = is_theme_dark
-        ? `${data_path}/reload_dark.svg`
-        : `${data_path}/reload_light.svg`;
-    const stop_icon_path = is_theme_dark
-        ? `${data_path}/stop_dark.svg`
-        : `${data_path}/stop_light.svg`;
+    if (is_animated) {
+        const reload_icon_path = is_theme_dark
+            ? "data/reload_to_stop_dark.svg"
+            : "data/reload_to_stop_light.svg";
+        const stop_icon_path = is_theme_dark
+            ? "data/stop_to_reload_dark.svg"
+            : "data/stop_to_reload_light.svg";
+
+        // Bypass caching
+        const timestamp = `?t=${Date.now()}`;
+
+        path = (tab.status === "loading"
+            ? stop_icon_path
+            : reload_icon_path) + timestamp;
+
+        // Set the still frame icon after the animation finishes
+        window.setTimeout(() => {
+            update_page_action_icon(tab, false);
+        }, 417);
+
+    } else {
+        const reload_icon_path = is_theme_dark
+            ? "data/reload_dark.svg"
+            : "data/reload_light.svg";
+        const stop_icon_path = is_theme_dark
+            ? "data/stop_dark.svg"
+            : "data/stop_light.svg";
+
+        path = tab.status === "loading"
+            ? stop_icon_path
+            : reload_icon_path;
+    }
+
 
     const action_icon = {
         tabId: tab.id
-      , path: tab.status === "loading"
-            ? stop_icon_path
-            : reload_icon_path
+      , path
     };
 
     browser.pageAction.setIcon(action_icon);
@@ -135,14 +159,25 @@ browser.tabs.query({}).then(tabs => {
 // Show page action on new tabs
 browser.tabs.onCreated.addListener(tab => {
     update_page_action(tab);
-})
-
-// Show/update page action on navigation
-browser.tabs.onUpdated.addListener((tab_id, info, tab) => {
-    if ("status" in info) {
-        update_page_action(tab);
-    }
 });
+
+
+function on_navigation (details) {
+    // Only act on top-level navigation
+    if (details.frameId) return;
+
+    browser.tabs.get(details.tabId)
+        .then(tab => {
+            update_page_action(tab);
+        });
+}
+
+// Show/update icon on navigation
+browser.webNavigation.onBeforeNavigate.addListener(on_navigation);
+browser.webNavigation.onCompleted.addListener(on_navigation);
+
+// Update icon on stop
+browser.webNavigation.onErrorOccurred.addListener(on_navigation);
 
 
 
