@@ -174,17 +174,39 @@ browser.tabs.onUpdated.addListener((tab_id, info, tab) => {
 });
 
 
+/**
+ * Store timestamps for each navigation event to reference in
+ * future.
+ */
+const navigation_timestamp = new Map();
+
 function on_navigation (details) {
     // Only act on top-level navigation
     if (details.frameId) return;
 
     browser.tabs.get(details.tabId)
         .then(tab => {
-            const { protocol } = new URL(details.url);
-            const should_animate = /^https?:$/.test(protocol);
-            
+            let should_animate = true;
+
+            if (navigation_timestamp.has(details.tabId)) {
+                // Time since last navigation
+                const diff = details.timeStamp
+                        - navigation_timestamp.get(details.tabId);
+
+                /**
+                 * If time passed is less than duration of the animation, just
+                 * set still frames.
+                 */
+                if (diff < 417) {
+                    should_animate = false;
+                }
+            }
+
             update_page_action(tab);
             update_page_action_icon(tab, should_animate);
+
+            // Record new timestamp
+            navigation_timestamp.set(details.tabId, details.timeStamp);
         });
 }
 
