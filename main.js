@@ -37,6 +37,9 @@ browser.runtime.getPlatformInfo().then(info => {
           , `${info.os === "mac" ? "⌘" : "Ctrl"}+R`);
 });
 
+
+const animation_timeouts = new Map();
+
 /**
  * Updates the reload button icon for the page action attached to the
  * tab specified.
@@ -46,6 +49,10 @@ browser.runtime.getPlatformInfo().then(info => {
  */
 function update_page_action_icon (tab, is_animated = true) {
     let path;
+
+    if (animation_timeouts.has(tab.id)) {
+        window.clearTimeout(animation_timeouts.get(tab.id));
+    }
 
     if (is_animated) {
         const reload_icon_path = is_theme_dark
@@ -63,10 +70,12 @@ function update_page_action_icon (tab, is_animated = true) {
             : reload_icon_path) + timestamp;
 
         // Set the still frame icon after the animation finishes
-        window.setTimeout(() => {
+        const timeout_id = window.setTimeout(() => {
             update_page_action_icon(tab, false);
+            animation_timeouts.delete(tab.id);
         }, 417);
 
+        animation_timeouts.set(tab.id, timeout_id);
     } else {
         const reload_icon_path = is_theme_dark
             ? "data/reload_dark.svg"
@@ -79,7 +88,6 @@ function update_page_action_icon (tab, is_animated = true) {
             ? stop_icon_path
             : reload_icon_path;
     }
-
 
     const action_icon = {
         tabId: tab.id
@@ -119,8 +127,6 @@ function update_page_action (tab) {
 
     browser.pageAction.setTitle(action_title);
     browser.browserAction.setTitle(action_title);
-
-    update_page_action_icon(tab);
 }
 
 
@@ -153,11 +159,17 @@ browser.browserAction.onClicked.addListener(on_action_clicked);
 browser.tabs.query({}).then(tabs => {
     for (const tab of tabs) {
         update_page_action(tab);
+        update_page_action_icon(tab);
     }
 });
 
 // Show page action on new tabs
 browser.tabs.onCreated.addListener(tab => {
+    update_page_action(tab);
+    update_page_action_icon(tab);
+});
+
+browser.tabs.onUpdated.addListener((tab_id, info, tab) => {
     update_page_action(tab);
 });
 
@@ -168,7 +180,11 @@ function on_navigation (details) {
 
     browser.tabs.get(details.tabId)
         .then(tab => {
+            const { protocol } = new URL(details.url);
+            const should_animate = /^https?:$/.test(protocol);
+            
             update_page_action(tab);
+            update_page_action_icon(tab, should_animate);
         });
 }
 
