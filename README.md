@@ -6,9 +6,9 @@ Firefox add-on for a reload button as a page action
 
 <table>
     <tr>
-        <td>Command</td>
-        <td>Windows / Linux</td>
-        <td>macOS</td>
+        <td><b>Command<b></td>
+        <td><b>Windows / Linux</b></td>
+        <td><b>macOS</b></td>
     </tr>
     <tr>
         <td>Reload</td>
