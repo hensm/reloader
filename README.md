@@ -2,6 +2,46 @@
 
 Firefox add-on for a reload button as a page action
 
+## Keyboard Shortcuts
+
+<table>
+    <tr>
+        <td>Command</td>
+        <td>Windows / Linux</td>
+        <td>macOS</td>
+    </tr>
+    <tr>
+        <td>Reload</td>
+        <td>
+            <code>F5</code><br>
+            <code>Ctrl</code> + <code>R</code>
+        </td>
+        <td>
+            <code>F5</code><br>
+            <code>⌘</code> + <code>R</code>
+        </td>
+    </tr>
+    <tr>
+        <td>Hard Reload</td>
+        <td>
+            <code>Ctrl</code> + <code>F5</code><br>
+            <code>Ctrl</code> + <code>Shift</code> + <code>R</code>
+        </td>
+        <td>
+            <code>⌘</code> + <code>F5</code><br>
+            <code>⌘</code> + <code>Shift</code> + <code>R</code>
+        </td>
+    </tr>
+    <tr>
+        <td>Empty Cache and Hard Reload</td>
+        <td>
+            <code>Ctrl</code> + <code>Shift</code> + <code>F5</code>
+        </td>
+        <td>
+            <code>⌘</code> + <code>Shift</code> + <code>F5</code>
+        </td>
+    </tr>
+</table>
 
 ## Locale Licenses
 
