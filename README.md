@@ -76,3 +76,10 @@ Then, in your stylesheet:
     /* ... */
 }
 ````
+
+Move to the end of the url bar:
+````css
+#pageAction-urlbar-reloader_matt_tf {
+    -moz-box-ordinal-group: 2 !important;
+}
+````
