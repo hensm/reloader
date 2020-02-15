@@ -3,108 +3,111 @@
 const _ = browser.i18n.getMessage;
 
 
-let is_theme_dark = false;
+let isThemeDark = false;
 
-// Array of theme ids using light icons
-const dark_theme_ids = [
-    "firefox-compact-dark@mozilla.org@personas.mozilla.org"
-];
+function checkCurrentTheme (theme) {
+    isThemeDark = theme.name === "Dark"
+        || (theme.name === "Default"
+            && window.matchMedia("(prefers-color-scheme: dark)").matches);
+}
 
 // Detect theme for icon contrast
 browser.management.getAll().then(extensions => {
-    const current_theme = extensions.filter(
+    const currentTheme = extensions.filter(
             ext => ext.type === "theme" && ext.enabled)[0];
 
-    is_theme_dark = dark_theme_ids.includes(current_theme.id);
-    update_all_page_action_icons();
+    checkCurrentTheme(currentTheme);
+    updateAllPageActionIcons();
 });
 
 // Listen for theme changes to maintain icon contrast
 browser.management.onEnabled.addListener(info => {
     if (info.type === "theme") {
-        is_theme_dark = dark_theme_ids.includes(info.id);
-        update_all_page_action_icons();
+        checkCurrentTheme(info);
+        updateAllPageActionIcons();
     }
 });
 
 
-let page_action_title_idle;
-let page_action_title_busy = _("page_action_busy_title", "Esc");
+let pageActionTitleIdle;
+let pageActionTitleBusy = _("page_action_busy_title", "Esc");
 
 // Detect OS to set macOS shortcuts
 browser.runtime.getPlatformInfo().then(info => {
-    page_action_title_idle = _("page_action_idle_title"
+    pageActionTitleIdle = _("page_action_idle_title"
           , `${info.os === "mac" ? "⌘" : "Ctrl"}+R`);
 });
 
 
-const animation_timeouts = new Map();
+const animationTimeouts = new Map();
 
 /**
  * Updates the reload button icon for the page action attached to the
  * tab specified.
  *
- * @param tab         Tab with the page action to update
- * @param is_animated Set icon and start an animation
+ * @param tab        Tab with the page action to update
+ * @param isAnimated Set icon and start an animation
  */
-function update_page_action_icon (tab, is_animated = true) {
+function updatePageActionIcon (tab, isAnimated = true) {
     let path;
 
-    if (animation_timeouts.has(tab.id)) {
-        window.clearTimeout(animation_timeouts.get(tab.id));
+    if (animationTimeouts.has(tab.id)) {
+        window.clearTimeout(animationTimeouts.get(tab.id));
     }
 
-    if (is_animated) {
-        const reload_icon_path = is_theme_dark
+    if (isAnimated) {
+        const reloadIconPath = isThemeDark
             ? "data/reload_to_stop_dark.svg"
             : "data/reload_to_stop_light.svg";
-        const stop_icon_path = is_theme_dark
+        const stopIconPath = isThemeDark
             ? "data/stop_to_reload_dark.svg"
             : "data/stop_to_reload_light.svg";
 
         // Bypass caching
-        const timestamp = `?t=${Date.now()}`;
+        const queryString = `?t=${Math.random().toString(36).slice(2, 8)}`;
 
         path = (tab.status === "loading"
-            ? stop_icon_path
-            : reload_icon_path) + timestamp;
+            ? stopIconPath
+            : reloadIconPath) + queryString;
 
         // Set the still frame icon after the animation finishes
-        const timeout_id = window.setTimeout(() => {
-            update_page_action_icon(tab, false);
-            animation_timeouts.delete(tab.id);
+        const timeoutId = window.setTimeout(() => {
+            updatePageActionIcon(tab, false);
+            animationTimeouts.delete(tab.id);
         }, 417);
 
-        animation_timeouts.set(tab.id, timeout_id);
+        animationTimeouts.set(tab.id, timeoutId);
     } else {
-        const reload_icon_path = is_theme_dark
+        const reloadIconPath = isThemeDark
             ? "data/reload_dark.svg"
             : "data/reload_light.svg";
-        const stop_icon_path = is_theme_dark
+        const stopIconPath = isThemeDark
             ? "data/stop_dark.svg"
             : "data/stop_light.svg";
 
         path = tab.status === "loading"
-            ? stop_icon_path
-            : reload_icon_path;
+            ? stopIconPath
+            : reloadIconPath;
     }
 
-    const action_icon = {
+    const actionIcon = {
         tabId: tab.id
       , path
     };
 
-    browser.pageAction.setIcon(action_icon);
-    browser.browserAction.setIcon(action_icon);
+    console.log("updatePageActionIcon", path, isAnimated);
+
+    browser.pageAction.setIcon(actionIcon);
+    browser.browserAction.setIcon(actionIcon);
 }
 
 /**
  * Updates reload button icons on all tabs
  */
-function update_all_page_action_icons () {
+function updateAllPageActionIcons () {
     browser.tabs.query({}).then(tabs => {
         for (const tab of tabs) {
-            update_page_action_icon(tab);
+            updatePageActionIcon(tab);
         }
     });
 }
@@ -115,22 +118,22 @@ function update_all_page_action_icons () {
  *
  * @param tab Tab with the page action to show
  */
-function update_page_action (tab) {
+function updatePageAction (tab) {
     browser.pageAction.show(tab.id);
 
-    const action_title = {
+    const actionTitle = {
         tabId: tab.id
       , title: tab.status === "loading"
-            ? page_action_title_busy
-            : page_action_title_idle
+            ? pageActionTitleBusy
+            : pageActionTitleIdle
     };
 
-    browser.pageAction.setTitle(action_title);
-    browser.browserAction.setTitle(action_title);
+    browser.pageAction.setTitle(actionTitle);
+    browser.browserAction.setTitle(actionTitle);
 }
 
 
-function on_action_clicked (tab) {
+function onActionClicked (tab) {
     if (tab.status === "loading") {
         /**
          * Extension API has no stop method, best alternative is to inject a
@@ -151,71 +154,72 @@ function on_action_clicked (tab) {
     }
 }
 
-browser.pageAction.onClicked.addListener(on_action_clicked);
-browser.browserAction.onClicked.addListener(on_action_clicked);
+browser.pageAction.onClicked.addListener(onActionClicked);
+browser.browserAction.onClicked.addListener(onActionClicked);
 
 
 // Show page action on all tabs
 browser.tabs.query({}).then(tabs => {
     for (const tab of tabs) {
-        update_page_action(tab);
-        update_page_action_icon(tab);
+        updatePageAction(tab);
+        updatePageActionIcon(tab);
     }
 });
 
 // Show page action on new tabs
 browser.tabs.onCreated.addListener(tab => {
-    update_page_action(tab);
-    update_page_action_icon(tab);
+    updatePageAction(tab);
+    updatePageActionIcon(tab);
 });
 
-browser.tabs.onUpdated.addListener((tab_id, info, tab) => {
-    update_page_action(tab);
-});
+browser.tabs.onUpdated.addListener((tabId, info, tab) => {
+    updatePageAction(tab);
+    updatePageActionIcon(tab, false);
+}, { properties: [ "status" ] });
 
 
 /**
  * Store timestamps for each navigation event to reference in
  * future.
  */
-const navigation_timestamp = new Map();
+const navigationTimestamp = new Map();
 
-function on_navigation (details) {
+function onNavigation (details) {
     // Only act on top-level navigation
     if (details.frameId) return;
 
     browser.tabs.get(details.tabId)
         .then(tab => {
-            let should_animate = true;
+            let shouldAnimate = true;
 
-            if (navigation_timestamp.has(details.tabId)) {
+            if (navigationTimestamp.has(details.tabId)) {
                 // Time since last navigation
                 const diff = details.timeStamp
-                        - navigation_timestamp.get(details.tabId);
+                        - navigationTimestamp.get(details.tabId);
 
                 /**
                  * If time passed is less than duration of the animation, just
                  * set still frames.
                  */
                 if (diff < 417) {
-                    should_animate = false;
+                    shouldAnimate = false;
                 }
             }
 
-            update_page_action(tab);
-            update_page_action_icon(tab, should_animate);
+            updatePageAction(tab);
+            updatePageActionIcon(tab, shouldAnimate);
 
             // Record new timestamp
-            navigation_timestamp.set(details.tabId, details.timeStamp);
+            navigationTimestamp.set(details.tabId, details.timeStamp);
         });
 }
 
 // Show/update icon on navigation
-browser.webNavigation.onBeforeNavigate.addListener(on_navigation);
-browser.webNavigation.onCompleted.addListener(on_navigation);
+browser.webNavigation.onBeforeNavigate.addListener(onNavigation);
+browser.webNavigation.onCompleted.addListener(onNavigation);
 
 // Update icon on stop
-browser.webNavigation.onErrorOccurred.addListener(on_navigation);
+browser.webNavigation.onErrorOccurred.addListener(onNavigation);
 
 
 
@@ -224,7 +228,7 @@ browser.webNavigation.onErrorOccurred.addListener(on_navigation);
  * the page. For anything loaded after, the cache must be
  * cleared properly.
  */
-function empty_cache_and_hard_reload () {
+function emptyCacheAndHardReload () {
     // Clear cache
     browser.browsingData.remove({}, { cache: true })
         .then(() => {
@@ -238,50 +242,39 @@ function empty_cache_and_hard_reload () {
 
 browser.commands.onCommand.addListener(command => {
     switch (command) {
-        case "empty_cache_and_hard_reload":
-            empty_cache_and_hard_reload();
+        case menuIdEmptyCacheAndHardReload:
+            emptyCacheAndHardReload();
             break;
     }
 });
 
 
-browser.menus.create({
-    id: "normal_reload"
-  , title: _("page_action_context_normal_reload_title")
+const menuIdNormalReload = browser.menus.create({
+    title: _("page_action_context_normal_reload_title")
   , command: "_execute_page_action"
-  , contexts: [
-        "page_action"
-      , "browser_action"
-    ]
+  , contexts: [ "page_action" , "browser_action" ]
 });
-browser.menus.create({
-    id: "hard_reload"
-  , title: _("page_action_context_hard_reload_title")
-  , contexts: [
-        "page_action"
-      , "browser_action"
-    ]
+const menuIdHardReload = browser.menus.create({
+    title: _("page_action_context_hard_reload_title")
+  , contexts: [ "page_action" , "browser_action" ]
 });
-browser.menus.create({
-    id: "empty_cache_and_hard_reload"
-  , title: _("page_action_context_empty_cache_and_hard_reload_title")
-  , contexts: [
-        "page_action"
-      , "browser_action"
-    ]
+const menuIdEmptyCacheAndHardReload = browser.menus.create({
+    title: _("page_action_context_empty_cache_and_hard_reload_title")
+  , contexts: [ "page_action", "browser_action" ]
 })
 
 browser.menus.onClicked.addListener((info, tab) => {
     switch (info.menuItemId) {
         // Reload without cached content
-        case "hard_reload":
+        case menuIdHardReload: {
             browser.tabs.reload({
                 bypassCache: true
             });
             break;
-
-        case "empty_cache_and_hard_reload":
-            empty_cache_and_hard_reload();
+        }
+        case menuIdEmptyCacheAndHardReload: {
+            emptyCacheAndHardReload();
             break;
+        }
     }
 });
