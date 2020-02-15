@@ -95,8 +95,6 @@ function updatePageActionIcon (tab, isAnimated = true) {
       , path
     };
 
-    console.log("updatePageActionIcon", path, isAnimated);
-
     browser.pageAction.setIcon(actionIcon);
     browser.browserAction.setIcon(actionIcon);
 }
@@ -133,7 +131,7 @@ function updatePageAction (tab) {
 }
 
 
-function onActionClicked (tab) {
+function onActionClicked (tab, info) {
     if (tab.status === "loading") {
         /**
          * Extension API has no stop method, best alternative is to inject a
@@ -150,7 +148,15 @@ function onActionClicked (tab) {
             console.error(`${_("extension_name")}: https://git.io/vbCz7`);
         });
     } else {
-        browser.tabs.reload()
+        if (info.button === 1
+         || info.modifiers.includes("Ctrl")
+         || info.modifiers.includes("Command")) {
+            browser.tabs.duplicate(tab.id);
+        } else {
+            browser.tabs.reload({
+                bypassCache: info.modifiers.includes("Shift")
+            });
+        }
     }
 }
 
