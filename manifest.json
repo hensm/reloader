@@ -1,7 +1,7 @@
 {
     "name": "__MSG_extension_name__"
   , "description": "__MSG_extension_description__"
-  , "version": "0.0.7"
+  , "version": "0.0.8"
   , "author": "Matt Hensman <m@matt.tf>"
 
   , "icons": {
@@ -15,7 +15,7 @@
   , "applications": {
         "gecko": {
             "id": "reloader@matt.tf"
-          , "strict_min_version": "55.0"
+          , "strict_min_version": "58.0"
         }
     }
 

@@ -248,37 +248,45 @@ function emptyCacheAndHardReload () {
 
 browser.commands.onCommand.addListener(command => {
     switch (command) {
-        case menuIdEmptyCacheAndHardReload:
+        case MENU_ID_EMPTY_CACHE_AND_HARD_RELOAD:
             emptyCacheAndHardReload();
             break;
     }
 });
 
+const MENU_ID_NORMAL_RELOAD = "menu_normal_reload";
+const MENU_ID_HARD_RELOAD = "menu_hard_reload";
+const MENU_ID_EMPTY_CACHE_AND_HARD_RELOAD = "menu_empty_cache_and_hard_reload";
 
-const menuIdNormalReload = browser.menus.create({
-    title: _("page_action_context_normal_reload_title")
-  , command: "_execute_page_action"
-  , contexts: [ "page_action" , "browser_action" ]
-});
-const menuIdHardReload = browser.menus.create({
-    title: _("page_action_context_hard_reload_title")
-  , contexts: [ "page_action" , "browser_action" ]
-});
-const menuIdEmptyCacheAndHardReload = browser.menus.create({
-    title: _("page_action_context_empty_cache_and_hard_reload_title")
-  , contexts: [ "page_action", "browser_action" ]
+browser.runtime.onInstalled.addListener(() => {
+    browser.menus.create({
+        id: MENU_ID_NORMAL_RELOAD
+      , title: _("page_action_context_normal_reload_title")
+      , command: "_execute_page_action"
+      , contexts: [ "page_action" , "browser_action" ]
+    });
+    browser.menus.create({
+        id: MENU_ID_HARD_RELOAD
+      , title: _("page_action_context_hard_reload_title")
+      , contexts: [ "page_action" , "browser_action" ]
+    });
+    browser.menus.create({
+        id: MENU_ID_EMPTY_CACHE_AND_HARD_RELOAD
+      , title: _("page_action_context_empty_cache_and_hard_reload_title")
+      , contexts: [ "page_action", "browser_action" ]
+    })
 })
 
 browser.menus.onClicked.addListener((info, tab) => {
     switch (info.menuItemId) {
         // Reload without cached content
-        case menuIdHardReload: {
+        case MENU_ID_HARD_RELOAD: {
             browser.tabs.reload({
                 bypassCache: true
             });
             break;
         }
-        case menuIdEmptyCacheAndHardReload: {
+        case MENU_ID_EMPTY_CACHE_AND_HARD_RELOAD: {
             emptyCacheAndHardReload();
             break;
         }
